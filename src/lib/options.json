@@ -1,0 +1,22 @@
+{
+    "metalTypes": [
+        "Steel",
+        "Aluminum",
+        "Stainless Steel",
+        "Brass"
+    ],
+    "metalThickness": [
+        "1mm",
+        "2mm",
+        "3mm",
+        "4mm",
+        "5mm"
+    ],
+    "finishes": [
+        "Raw",
+        "Brushed",
+        "Polished",
+        "Powder Coated",
+        "Anodized"
+    ]
+} 
