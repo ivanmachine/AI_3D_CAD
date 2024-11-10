@@ -11,10 +11,6 @@ jobs:
     steps:
       - name: 🚚 Get latest code
         uses: actions/checkout@v1
-      - name: 🚚 Make local copy dir
-        run: |
-          mkdir temp
-          cp -r docker-compose.yml scripts Makefile temp
       - name: Copy files to vps
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -22,7 +18,7 @@ jobs:
           username: "root"
           password: ${{ secrets.VPS_PASSWORD }}
           port: ${{ secrets.PORT }}
-          source: "./temp"
+          source: "./start.sh"
           target: "/var/www/cad/"
 
       - name: Run commands on VPS
@@ -33,6 +29,6 @@ jobs:
           password: ${{ secrets.VPS_PASSWORD }}
           port: 22                                   # SSH port (default is 22)
           script: |
-            cd /var/www/oneocean/temp
-            chmod +x scripts/*
-            scripts/run_dashboard.sh
+            cd /var/www/cad
+            chmod +x start.sh
+            ./start.sh
