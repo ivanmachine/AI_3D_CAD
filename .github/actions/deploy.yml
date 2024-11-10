@@ -1,0 +1,38 @@
+name: 🦖 Deploy dashboard
+on:
+  push:
+    branches:
+      - deploy
+  workflow_dispatch:
+jobs:
+  play-deploy:
+    name: 🍜 Deploy CAD to VPS
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v1
+      - name: 🚚 Make local copy dir
+        run: |
+          mkdir temp
+          cp -r docker-compose.yml scripts Makefile temp
+      - name: Copy files to vps
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.VPS_IP }}
+          username: "root"
+          password: ${{ secrets.VPS_PASSWORD }}
+          port: ${{ secrets.PORT }}
+          source: "./temp"
+          target: "/var/www/cad/"
+
+      - name: Run commands on VPS
+        uses: appleboy/ssh-action@v0.1.5
+        with:
+          host: ${{ secrets.VPS_IP }}                # VPS IP address from GitHub Secrets
+          username: "root"                           # VPS username from GitHub Secrets
+          password: ${{ secrets.VPS_PASSWORD }}
+          port: 22                                   # SSH port (default is 22)
+          script: |
+            cd /var/www/oneocean/temp
+            chmod +x scripts/*
+            scripts/run_dashboard.sh
