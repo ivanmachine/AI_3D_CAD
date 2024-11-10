@@ -1,2 +1,2 @@
 docker pull ivanmachine/cad
-docker up -d cad
+docker run -d cad
