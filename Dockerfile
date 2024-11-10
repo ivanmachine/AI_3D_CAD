@@ -21,8 +21,8 @@ COPY --from=builder /app/.env ./
 
 RUN yarn install --production --frozen-lockfile
 
-EXPOSE 3000
+EXPOSE 3080
 ENV NODE_ENV=production
-ENV PORT=3000
+ENV PORT=3080
 
 CMD ["yarn", "start"]
